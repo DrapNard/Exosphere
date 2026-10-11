@@ -1,104 +1,67 @@
-# Exosphere
+<h1 align="center"><a href="https://github.com/DrapNard/Exosphere">Exosphere</a></h1>
 
-Projet expérimental d’émulation Nintendo Switch **exclusivement pour Linux**, développé en Rust.
+<p align="center">
+  An experimental Nintendo Switch emulator written in Rust.<br>
+  Built with Linux today. Windows and macOS are planned.
+</p>
 
-Exosphere construit progressivement les briques nécessaires à l’exécution des jeux : chargement du contenu, CPU ARM64, services système Horizon, GPU Tegra/Maxwell et rendu Vulkan. L’analyse et la compilation AOT/JIT font partie de l’architecture ; l’exécution diagnostique actuelle utilise aussi un interpréteur ARM64 de référence.
+<p align="center">
+  <a href="https://github.com/DrapNard/Exosphere/actions/workflows/linux.yml"><img src="https://github.com/DrapNard/Exosphere/actions/workflows/linux.yml/badge.svg" alt="Linux CI"></a>
+  <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/language-Rust-orange?logo=rust" alt="Written in Rust"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue" alt="GPL-3.0-or-later"></a>
+  <img src="https://img.shields.io/badge/status-experimental-yellow" alt="Experimental">
+</p>
 
-**Le projet est en développement actif : ce n’est pas encore un émulateur prêt à jouer.** Windows et macOS ne sont pas des plateformes cibles.
+<p align="center">
+  <a href="docs/LINUX_GAME_ROADMAP.md">Linux roadmap</a> ·
+  <a href="spec/exosphere-docs-v0.1/docs/ARCHITECTURE.md">Architecture</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a>
+</p>
 
-Maintenu par [DrapNard](https://github.com/DrapNard) · Licence [GPL-3.0-or-later](LICENSE)
+## About
 
-## Objectif et état actuel
+Exosphere brings together ARM64 execution, Horizon system services and Tegra/Maxwell graphics through a Vulkan backend. Its architecture explores offline analysis and AOT/JIT compilation alongside a reference interpreter.
 
-La priorité est de lancer et stabiliser **Snipperclips Plus** sur Linux, puis de passer à **Super Mario Odyssey**.
+The project is in active development, **not yet a playable emulator**. Linux is the current implementation and validation target; Windows and macOS support are planned, not currently verified.
 
-- Le contenu de Snipperclips est chargé et ses modules exécutent du code ARM64 dans l’environnement Horizon émulé.
-- Le noyau, les services IPC, la mémoire, les fichiers et le pilote GPU sont implémentés progressivement, avec des tests de régression.
-- Le backend Vulkan est testé sur des scénarios contrôlés. Ces tests ne prouvent pas le rendu d’un jeu commercial.
-- **Aucune image, aucun menu et aucun gameplay de Snipperclips ne sont encore vérifiés.** L’initialisation GPU reste incomplète.
-- Le diagnostic normal s’arrête sur ZCullGetCtxSize. Des essais avec des hypothèses GPU temporaires atteignent ensuite un échec de destruction d’événement ; ces hypothèses ne sont pas activées en production.
-- La stabilisation de Super Mario Odyssey attend celle de Snipperclips.
+## Current focus
 
-La [roadmap Linux](docs/LINUX_GAME_ROADMAP.md) détaille les étapes, les preuves de fonctionnement et les blocages. Reconnaître une instruction ou réussir un test isolé ne signifie pas qu’un jeu est compatible.
+The first milestone is to boot and stabilize **Snipperclips Plus**, followed by **Super Mario Odyssey**.
 
-## Architecture
+Content loading and bounded ARM64 execution are working for development diagnostics. System services and GPU integration are still being expanded. Controlled Vulkan tests do **not** establish commercial-game compatibility: no Snipperclips frame, menu or gameplay has been verified yet.
 
-| Partie | Rôle |
-| --- | --- |
-| `exosphere-ingest` | Lecture des conteneurs, vérification du contenu et chargement des exécutables. |
-| CPU IR, backends et runtime | Décodage ARM64, représentation intermédiaire, compilation AOT/JIT et interprétation. |
-| `exosphere-horizon` / `exosphere-vfs` | Noyau invité, appels système, services IPC, mémoire et accès aux fichiers. |
-| GPU IR / Vulkan | Commandes Tegra/Maxwell, shaders, ressources et exécution graphique. |
-| Plateforme, audio, média et input Linux | Intégration avec le système hôte Linux. |
-| CLI / UI | Outils de développement et de diagnostic ; l’interface graphique reste une ébauche. |
+See the [Linux roadmap](docs/LINUX_GAME_ROADMAP.md) for detailed progress and remaining work.
 
-Les comportements non pris en charge doivent rester explicites : une commande ignorée ou un résultat inventé ne constitue pas une implémentation correcte.
+## Getting started
 
-## Compiler sur Linux
-
-Prérequis : une chaîne Rust stable récente avec Cargo, un compilateur/linker système et, pour les tests graphiques natifs, un environnement Vulkan compatible. Certains tests nécessitent aussi une session graphique ou des fonctionnalités matérielles spécifiques.
+On Linux, install a recent stable Rust toolchain and a system compiler/linker. Native graphics tests also require a compatible Vulkan driver.
 
 ```bash
 git clone https://github.com/DrapNard/Exosphere.git
 cd Exosphere
 cargo build -p exosphere-cli
-cargo run -p exosphere-cli -- --help
 cargo run -p exosphere-cli -- doctor
+cargo run -p exosphere-cli -- --help
 ```
 
-Les diagnostics de contenu/CPU ne nécessitent pas tous un affichage graphique. Un test Vulkan peut échouer si le pilote ou les capacités nécessaires ne sont pas disponibles.
+The CLI currently provides inspection and development tools. The graphical interface is an early shell, not a finished game launcher.
 
-## Outils de développement
-
-Inspection d’un exécutable et de sa représentation CPU :
-
-```bash
-cargo run -p exosphere-cli -- inspect main.nso
-cargo run -p exosphere-cli -- cpu-ir main.nso
-```
-
-Inspection d’un conteneur NSP personnel et exécution CPU bornée :
-
-```bash
-cargo run -p exosphere-cli -- content-inspect \
-  "LocalDevStorage/game.nsp" \
-  --keys "LocalDevStorage/keys/prod.keys" \
-  --cpu-steps 1000000
-```
-
-Cette commande est un **diagnostic**, pas une promesse de lancement jouable. Les chemins sont des exemples ; aucun jeu ni fichier de clés n’est fourni.
-
-Quelques tests ciblés :
-
-```bash
-cargo run -p exosphere-cli -- horizon-ipc-smoke
-cargo run -p exosphere-cli -- fs-smoke
-cargo run -p exosphere-cli -- vulkan-triangle-smoke --width 256 --height 256
-cargo run -p exosphere-cli -- gpu-capabilities
-```
-
-Le test du triangle vérifie un rendu Vulkan hors écran et sa lecture retour, pas l’affichage de Snipperclips.
-
-## Qualité et contributions
-
-Le code doit rester clair et compréhensible. Les commentaires expliquent les choix, les contraintes et les comportements qui ne sont pas évidents à la lecture du code.
+## Development
 
 ```bash
 cargo fmt --all -- --check
-cargo check --workspace --all-targets
 cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace
-RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
 ```
 
-Les tests natifs opt-in et les essais sur de vrais jeux sont des validations distinctes des tests unitaires. La CI du dépôt cible Linux.
+Keep code clear, document non-obvious decisions and add regression tests. Native opt-in tests and real-game validation remain separate from the unit-test suite.
 
-Voir [CONTRIBUTING.md](CONTRIBUTING.md), la [roadmap Linux](docs/LINUX_GAME_ROADMAP.md) et la [documentation d’architecture](spec/exosphere-docs-v0.1/docs/ARCHITECTURE.md). Certains documents historiques décrivent des ambitions ou des étapes intermédiaires ; ils ne garantissent pas la compatibilité actuelle.
+## Content policy
 
-## Contenu local et publication
+No games, firmware, decryption keys or proprietary Nintendo SDK content are distributed with Exosphere. Supply your own local resources in accordance with applicable law.
 
-Exosphere ne distribue **ni jeux, ni firmware, ni clés de déchiffrement, ni contenu propriétaire du SDK Nintendo**. Les ressources nécessaires aux essais doivent être fournies localement par l’utilisateur, dans le respect du droit applicable.
+`LocalDevStorage/` is excluded from Git and must remain private. Do not upload dumps or keys in commits, issues or diagnostic logs. See [source policy](legal/SOURCES.md).
 
-`LocalDevStorage/` est exclu de Git, ainsi que les principaux formats de dumps et de clés. Ce dossier ne fait pas partie du dépôt public. Ne joignez jamais ces ressources à une contribution, une issue ou un journal de diagnostic.
+---
 
-Les références et règles relatives aux sources sont documentées dans [legal/SOURCES.md](legal/SOURCES.md).
+Maintained by [DrapNard](https://github.com/DrapNard). Licensed under [GPL-3.0-or-later](LICENSE).
