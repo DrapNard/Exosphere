@@ -1,7 +1,7 @@
 <h1 align="center"><a href="https://github.com/DrapNard/Exosphere">Exosphere</a></h1>
 
 <p align="center">
-  An experimental Nintendo Switch emulator written in Rust.<br>
+  A Nintendo Switch compatibility runtime bridging static recompilation and emulation.<br>
   Built with Linux today. Windows and macOS are planned.
 </p>
 
@@ -20,15 +20,26 @@
 
 ## About
 
-Exosphere brings together ARM64 execution, Horizon system services and Tegra/Maxwell graphics through a Vulkan backend. Its architecture explores offline analysis and AOT/JIT compilation alongside a reference interpreter.
+Exosphere is an experimental Rust project that sits between a static recompiler and an emulator. Its goal is to move as much work as possible into offline analysis and ahead-of-time compilation, while providing the runtime compatibility needed by the original game code.
 
-The project is in active development, **not yet a playable emulator**. Linux is the current implementation and validation target; Windows and macOS support are planned, not currently verified.
+Recompilation handles code that can be translated with established semantics. Runtime services and emulation handle the surrounding system behavior, with JIT/interpreter paths available where static compilation is insufficient. This is a hybrid architecture, not a claim that whole games already run as standalone native binaries.
+
+**Exosphere is not yet ready to play games.** Linux is the current implementation and validation target; Windows and macOS support are planned, not currently verified.
+
+## How it fits together
+
+- **Analyze and recompile:** load game content, lift ARM64 code into intermediate representations and compile supported paths through LLVM/Cranelift.
+- **Provide compatibility:** implement Horizon services, memory, files and synchronization around the game code.
+- **Translate graphics:** process Tegra/Maxwell commands and shaders for a host Vulkan backend.
+- **Retain runtime fallbacks:** use dynamic execution or interpretation where needed, keeping unsupported behavior explicit rather than guessing it.
+
+The offline pipeline and runtime are complementary parts of the design. Complete game recompilation and end-to-end compatibility remain development goals.
 
 ## Current focus
 
 The first milestone is to boot and stabilize **Snipperclips Plus**, followed by **Super Mario Odyssey**.
 
-Content loading and bounded ARM64 execution are working for development diagnostics. System services and GPU integration are still being expanded. Controlled Vulkan tests do **not** establish commercial-game compatibility: no Snipperclips frame, menu or gameplay has been verified yet.
+Content loading and bounded ARM64 execution through the reference interpreter are working for development diagnostics. Compiler paths cover supported subsets; full-game AOT execution is not verified. System services and GPU integration are still being expanded. Controlled Vulkan tests do **not** establish commercial-game compatibility: no Snipperclips frame, menu or gameplay has been verified yet.
 
 See the [Linux roadmap](docs/LINUX_GAME_ROADMAP.md) for detailed progress and remaining work.
 
