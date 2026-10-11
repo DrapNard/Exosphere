@@ -1,0 +1,28 @@
+[package]
+name = "exosphere-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+clap.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+exosphere-platform-linux = { path = "../../crates/exosphere-platform-linux" }
+exosphere-ingest = { path = "../../crates/exosphere-ingest" }
+exosphere-cpu-ir = { path = "../../crates/exosphere-cpu-ir" }
+
+exosphere-cpu-backend-llvm = { path = "../../crates/exosphere-cpu-backend-llvm" }
+
+exosphere-cpu-backend-cranelift = { path = "../../crates/exosphere-cpu-backend-cranelift" }
+
+exosphere-horizon = { path = "../../crates/exosphere-horizon" }
+
+exosphere-gpu-ir = { path = "../../crates/exosphere-gpu-ir" }
+
+exosphere-gpu-vulkan = { path = "../../crates/exosphere-gpu-vulkan" }
+
+exosphere-vfs = { path = "../../crates/exosphere-vfs" }
+exosphere-runtime = { path = "../../crates/exosphere-runtime" }

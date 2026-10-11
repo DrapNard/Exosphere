@@ -1,0 +1,18 @@
+[package]
+name = "exosphere-ingest"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+sha2.workspace = true
+lz4_flex.workspace = true
+aes = "0.8.4"
+
+exosphere-vfs = { path = "../exosphere-vfs" }
+
+[dev-dependencies]
+exosphere-cpu-ir = { path = "../exosphere-cpu-ir" }

@@ -1,0 +1,12 @@
+[package]
+name = "exosphere-cpu-ir"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+exosphere-core = { path = "../exosphere-core" }
+
+blake3.workspace = true

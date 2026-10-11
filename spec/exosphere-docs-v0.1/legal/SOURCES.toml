@@ -1,0 +1,13 @@
+schema_version = 1
+
+# Example:
+# [[source]]
+# project = "ExampleProject"
+# repository = "https://example.invalid/repo"
+# commit = "0123456789abcdef"
+# upstream_path = "src/example.cpp"
+# local_path = "third_party/imported/example/example.cpp"
+# upstream_license = "MIT"
+# mode = "adapted"
+# modifications = "Ported integration layer to project-owned APIs."
+# notes = "See SOURCES.md."

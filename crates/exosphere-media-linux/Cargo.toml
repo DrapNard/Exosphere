@@ -1,0 +1,10 @@
+[package]
+name = "exosphere-media-linux"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+exosphere-media-ir = { path = "../exosphere-media-ir" }

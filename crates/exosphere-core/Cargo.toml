@@ -1,0 +1,11 @@
+[package]
+name = "exosphere-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+exosphere-abi = { path = "../exosphere-abi" }
+thiserror.workspace = true

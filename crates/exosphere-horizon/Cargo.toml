@@ -1,0 +1,12 @@
+[package]
+name = "exosphere-horizon"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+getrandom = "0.3.4"
+exosphere-vfs = { path = "../exosphere-vfs" }

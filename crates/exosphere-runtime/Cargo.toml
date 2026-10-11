@@ -1,0 +1,18 @@
+[package]
+name = "exosphere-runtime"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+exosphere-core = { path = "../exosphere-core" }
+exosphere-hypervisor = { path = "../exosphere-hypervisor" }
+exosphere-horizon = { path = "../exosphere-horizon" }
+exosphere-manifest = { path = "../exosphere-manifest" }
+exosphere-ingest = { path = "../exosphere-ingest" }
+exosphere-cpu-ir = { path = "../exosphere-cpu-ir" }
+exosphere-gpu-ir = { path = "../exosphere-gpu-ir" }
+tracing.workspace = true
+thiserror.workspace = true

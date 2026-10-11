@@ -1,0 +1,20 @@
+[package]
+name = "exosphere-platform-linux"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+exosphere-runtime = { path = "../exosphere-runtime" }
+exosphere-hypervisor = { path = "../exosphere-hypervisor" }
+exosphere-hypervisor-kvm = { path = "../exosphere-hypervisor-kvm" }
+thiserror.workspace = true
+winit = "0.30.13"
+ash.workspace = true
+exosphere-gpu-vulkan = { path = "../exosphere-gpu-vulkan" }
+exosphere-gpu-ir = { path = "../exosphere-gpu-ir" }
+exosphere-horizon = { path = "../exosphere-horizon" }
+exosphere-media-linux = { path = "../exosphere-media-linux" }
+exosphere-audio-linux = { path = "../exosphere-audio-linux" }

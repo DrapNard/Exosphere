@@ -1,0 +1,14 @@
+[package]
+name = "exosphere-input-linux"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+exosphere-abi = { path = "../../crates/exosphere-abi" }
+exosphere-hypervisor = { path = "../../crates/exosphere-hypervisor" }

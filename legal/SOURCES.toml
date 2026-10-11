@@ -1,0 +1,45 @@
+schema_version = 1
+
+[[source]]
+project = "Switchbrew"
+repository = "https://switchbrew.org/wiki/GPU_Classes"
+commit = "web-reference-2026-10-02"
+upstream_path = "GPU_Classes / GPU_Shaders"
+local_path = "crates/exosphere-gpu-ir"
+upstream_license = "documentation/reference"
+mode = "reference-only"
+modifications = "Public register/format descriptions re-expressed in original Rust structures."
+notes = "No source-code import."
+
+[[source]]
+project = "deko3d"
+repository = "https://github.com/devkitPro/deko3d"
+commit = "reviewed-current-2026-10-02"
+upstream_path = "source/maxwell/compute_qmd.h; public documentation"
+local_path = "crates/exosphere-gpu-ir/src/qmd.rs"
+upstream_license = "zlib"
+mode = "reference-only"
+modifications = "QMD fields needed by Exosphere were independently represented in Rust."
+notes = "Used as a public hardware reference; no file copied verbatim."
+
+[[source]]
+project = "envytools"
+repository = "https://github.com/envytools/envytools"
+commit = "reviewed-current-2026-10-02"
+upstream_path = "docs/hw/graph/maxwell; envydis/gm107"
+local_path = "crates/exosphere-gpu-ir/src/maxwell_shader.rs"
+upstream_license = "MIT"
+mode = "reference-only"
+modifications = "Used to validate Maxwell/GM107 ISA concepts and future decoder coverage."
+notes = "No decoder table imported in this snapshot."
+
+[[source]]
+project = "ash"
+repository = "https://github.com/ash-rs/ash"
+commit = "0.38.0+1.3.281"
+upstream_path = "crate"
+local_path = "Cargo.toml dependency"
+upstream_license = "MIT OR Apache-2.0"
+mode = "dependency"
+modifications = "None; used as Vulkan 1.3 bindings/backend loader."
+notes = "General Vulkan backend; canonical Exosphere GPU IR remains backend-neutral."

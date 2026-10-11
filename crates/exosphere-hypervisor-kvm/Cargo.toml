@@ -1,0 +1,13 @@
+[package]
+name = "exosphere-hypervisor-kvm"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+exosphere-hypervisor = { path = "../exosphere-hypervisor" }
+exosphere-abi = { path = "../exosphere-abi" }
+libc.workspace = true
+thiserror.workspace = true

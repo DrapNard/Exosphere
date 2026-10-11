@@ -1,0 +1,16 @@
+[package]
+name = "exosphere-gpu-vulkan"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+exosphere-gpu-ir = { path = "../exosphere-gpu-ir" }
+thiserror.workspace = true
+
+libloading.workspace = true
+
+ash.workspace = true
+blake3 = "1"

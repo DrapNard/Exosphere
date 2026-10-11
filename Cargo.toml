@@ -1,0 +1,63 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/exosphere-abi",
+  "crates/exosphere-core",
+  "crates/exosphere-cpu-ir",
+  "crates/exosphere-cpu-backend-cranelift",
+  "crates/exosphere-cpu-backend-llvm",
+  "crates/exosphere-gpu-ir",
+  "crates/exosphere-media-ir",
+  "crates/exosphere-resource-ir",
+  "crates/exosphere-ingest",
+  "crates/exosphere-horizon",
+  "crates/exosphere-vfs",
+  "crates/exosphere-resolver",
+  "crates/exosphere-gpu-vulkan",
+  "crates/exosphere-media-linux",
+  "crates/exosphere-audio-linux",
+  "crates/exosphere-manifest",
+  "crates/exosphere-cas",
+  "crates/exosphere-package",
+  "crates/exosphere-hypervisor",
+  "crates/exosphere-hypervisor-kvm",
+  "crates/exosphere-runtime",
+  "crates/exosphere-platform-linux",
+  "apps/exosphere-cli",
+  "apps/exosphere-ui",
+  "plugins/input-linux",
+]
+
+default-members = [
+  "apps/exosphere-cli",
+  "crates/exosphere-platform-linux",
+  "plugins/input-linux",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+authors = ["DrapNard"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/DrapNard/Exosphere"
+rust-version = "1.85"
+
+[workspace.dependencies]
+anyhow = "1"
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+toml = "0.9"
+blake3 = "1"
+memmap2 = "0.9"
+libloading = "0.8"
+libc = "0.2"
+clap = { version = "4", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+iced = { version = "0.13", default-features = false, features = ["tiny-skia", "tokio"] }
+
+sha2 = "0.10"
+lz4_flex = "0.11"
+rusqlite = { version = "0.32", features = ["bundled"] }
+serde_json = "1"
+ash = { version = "0.38.0", default-features = true }
